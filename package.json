@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/alestor123/RSS-GITHUB/issues"
   },
-  "homepage": "https://github.com/alestor123/RSS-GITHUB#readme"
+  "homepage": "https://github.com/alestor123/RSS-GITHUB#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "express": "^4.17.1"
+  }
 }
