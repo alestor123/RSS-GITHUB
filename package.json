@@ -23,6 +23,7 @@
   "homepage": "https://github.com/alestor123/RSS-GITHUB#readme",
   "dependencies": {
     "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   }
 }
