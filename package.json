@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This is a simple code for genrating rss from github api",
   "main": "App.js",
+  "bin": {
+    "rss-github": "App.js"
+  },
   "scripts": {
     "start": "node App.js",
     "dev": "nodemon App.js",
