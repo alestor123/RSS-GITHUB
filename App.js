@@ -95,7 +95,6 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
 
 })
 
-// port listen
 
 // logger 
 function logger(message){
