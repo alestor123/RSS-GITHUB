@@ -18,7 +18,11 @@ port = process.env.PORT || argv || 3000,
 headers = {
 	'User-Agent': 'gh-feed',
 	'Accept': 'application/vnd.github.v3+json'
-};
+},
+limiter = rateLimit({
+	windowMs: 30 * 60 * 1000, // 15 minutes
+	max: reqLimit // limit each IP to 100 requests per windowMs
+});
 if (token) {
 	headers.Authorization = `token ${token}`
 logger(`Got Token ${token}`)
@@ -26,7 +30,7 @@ logger(`Got Token ${token}`)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(limiter)
 
 app.get('/github', (req,res) => {
 	res.redirect(pck.homepage)
