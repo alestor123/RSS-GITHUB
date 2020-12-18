@@ -6,19 +6,16 @@ app = express(),
 chalk = require('chalk'),
 axios = require('axios'),
 RSS = require('rss'),
+fs = require('fs')
 path = require('path'),
-rateLimit = require("express-rate-limit"),
-marked = require('marked')
-api = 'https://api.github.com/',
 pck = require('./package.json'),
+rateLimit = require("express-rate-limit"),
+marked = require('marked'),
+api = 'https://api.github.com/',
 argv = process.argv[2],
 token = process.env.TOKEN,
 reqLimit = process.env.LIMIT || 50,
 port = process.env.PORT || argv || 3000,
-headers = {
-	'User-Agent': 'gh-feed',
-	'Accept': 'application/vnd.github.v3+json'
-},
 limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 15 minutes
 	max: reqLimit*2, 	
@@ -49,7 +46,7 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
 		ttl: 60
     })
     
-    axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues',headers)
+    axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues')
     .then((response) => {
 		response.data.forEach(issue => {
 			feed.item({
@@ -65,7 +62,7 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
     })
     .catch((error) => {
 	res.send('We Got An Error Please Try Later')
-	console.error(error.response.data)
+	logger.err(error)
     })
 
 })
@@ -76,9 +73,24 @@ app.listen(port, () => logger(`Server running at ${port}`))
 // logger 
 function logger(message){
 console.log(chalk.bgYellow.red(`(LOG):${Date()}:${message}`))
+fsLog(message)
 }
 
 logger.req = (message,req) => {
-    console.log(chalk.bgYellow.blue(`(REQUEST):${Date()}:Ip : ${req.ip} : ${message}`))
+console.log(chalk.bgYellow.blue(`(REQUEST):${Date()}:Ip : ${req.ip} : ${message}`))
+fsLog(message)
+}
+logger.err = (message) => {
+console.error(chalk.bgRed.green(`(ERROR):${Date()} : ${message}`))
+fsLog(message)
 }
 // Main 
+// file logging 
+function fsLog(logText) {
+	if(true){
+	fs.appendFile('logs.log',`\n ${logText} \n` , (err) => {
+		if (err) throw err;
+	  });
+		}
+}
+	
