@@ -25,8 +25,8 @@ limiter = rateLimit({
 	message:'Your Limit Has Exceeded'
 });
 if (token) {
-	headers.Authorization = `token ${token}`
-logger(`Got Token ${token}`)
+	axios.defaults.headers.common['Authorization'] = token;
+	logger(`Got Token ${token}`)
 }
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json());
