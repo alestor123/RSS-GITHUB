@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// setting dotenv
 require('dotenv').config()
 
 var express = require('express'),
@@ -16,11 +17,13 @@ api = 'https://api.github.com/',
 token = process.env.TOKEN || options.token || options.t,
 reqLimit = process.env.LIMIT ||  options.limit || options.l || 50,
 port = process.env.PORT || options.port || options.p || 3000,
+// rate limiter
 limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 15 minutes
 	max: reqLimit*2, 	
 	message:'Your Limit Has Exceeded'
 });
+// cli 
 if(options.v || options.version){
     console.log( `${pck.version}`)
   process.exit(1);
@@ -53,11 +56,13 @@ if (token) {
 	axios.defaults.headers.common['Authorization'] = token;
 	logger(`Got Token ${token}`)
 }
+// setting express 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(limiter)
 
+// routes 
 app.get('/github', (req,res) => {
 	res.redirect(pck.homepage)
 	logger.req('Redirect',req)
