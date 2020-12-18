@@ -21,6 +21,31 @@ limiter = rateLimit({
 	max: reqLimit*2, 	
 	message:'Your Limit Has Exceeded'
 });
+if(options.v || options.version){
+    console.log( `${pck.version}`)
+  process.exit(1);
+}
+else if (options.h || options.help) { // checking undifined args
+    console.log(`
+	Usage: ${pck.name} -p <Port Number> -t <Token> -l <Limit Number> -f <file path>
+	-t , --token    for setting tokn
+	-l , --limit setting request limit
+	-p , --port setting port number
+	-v , --version for showing cli version
+	-i , --issue for reporting web page (any issue or bugs)
+	-f , --fsLog for setting path for log file by default this option is not true 
+`);
+}
+else if (options.i || options.issue) { // checking undifined args
+  console.log(`
+  Issues at ${pck.bugs.url} 
+`);
+}
+
+else{
+	app.listen(port, () => logger(`Server running at ${port}`))
+}
+
 if (token) {
 	axios.defaults.headers.common['Authorization'] = token;
 	logger(`Got Token ${token}`)
@@ -68,7 +93,6 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
 })
 
 // port listen
-app.listen(port, () => logger(`Server running at ${port}`))
 
 // logger 
 function logger(message){
