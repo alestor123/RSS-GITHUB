@@ -6,6 +6,7 @@ app = express(),
 chalk = require('chalk'),
 axios = require('axios'),
 RSS = require('rss'),
+marked = require('marked')
 api = 'https://api.github.com/',
 pck = require('./package.json'),
 argv = process.argv[2],
@@ -34,10 +35,21 @@ app.get('/issues/:name/:repo', (req, res) => {
 		site_url: `https://github.com/${req.params.name}/${req.params.repo}/${req.params[0]}${req.search}`,
 		image_url: `https://github.com/${req.params.name}.png`,
 		ttl: 60
-	})
+    })
+    
     axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues')
     .then((response) => {
-        res.send(response.data)
+		response.data.forEach(issue => {
+			feed.item({
+				title: issue.title,
+				url: issue.html_url,
+				categories: issue.labels.map(label => label.name),
+				author: issue.user.login,
+				date: issue.created_at,
+				description: marked(issue.body)
+			})
+        })
+        res.contentType('application/xml').header('Cache-Control', 'no-cache,max-age=600').send(feed.xml())
     })
     .catch((error) => {
     console.error(error)
