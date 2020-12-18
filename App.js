@@ -118,8 +118,8 @@ fsLog(message)
 // Main 
 // file logging 
 function fsLog(logText) {
-	if(options.fslog || options.f || false ){
-	fs.appendFile(options.fsLog || options.f ||'logs.log',`\n ${logText} \n` , (err) => {
+	if(options.fslog || options.f ||  process.env.LOG || false ){
+	fs.appendFile(options.fsLog || options.f ||  process.env.LOGPATH || 'logs.log' ,`\n ${logText} \n` , (err) => {
 		if (err) throw err;
 	  });
 		}
