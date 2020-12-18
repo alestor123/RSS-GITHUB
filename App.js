@@ -51,7 +51,7 @@ process.exit(0)
 else{
 	app.listen(port, () => logger(`Server running at ${port}`))
 }
-
+// setting axios header auth 
 if (token) {
 	axios.defaults.headers.common['Authorization'] = token;
 	logger(`Got Token ${token}`)
