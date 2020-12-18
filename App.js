@@ -21,7 +21,7 @@ if (token) {
 logger(`Got Token ${token}`)
 }
 
-app.get('/github', (req, res) => {
+app.get('/github', (res) => {
     res.redirect(pck.homepage)
 })
 
@@ -37,7 +37,7 @@ app.get('/issues/:name/:repo', (req, res) => {
 		ttl: 60
     })
     
-    axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues')
+    axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues',headers)
     .then((response) => {
 		response.data.forEach(issue => {
 			feed.item({
