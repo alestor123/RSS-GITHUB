@@ -21,10 +21,9 @@ if (token) {
 logger(`Got Token ${token}`)
 }
 
-app.get('/github', (res) => {
+app.get('/github', (req,res) => {
     res.redirect(pck.homepage)
 })
-
 
 app.get('/issues/:name/:repo', (req, res) => {
     logger.req(`Name : ${req.params.name} Repo : ${req.params.repo}`,req)
@@ -56,23 +55,6 @@ app.get('/issues/:name/:repo', (req, res) => {
     })
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // port listen
 app.listen(port, () => logger(`Server running at ${port}`))
