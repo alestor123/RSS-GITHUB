@@ -21,7 +21,8 @@ headers = {
 },
 limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 15 minutes
-	max: reqLimit // limit each IP to 100 requests per windowMs
+	max: reqLimit*2, 
+	message:'Your Limit Has Exceeded'
 });
 if (token) {
 	headers.Authorization = `token ${token}`
@@ -37,7 +38,7 @@ app.get('/github', (req,res) => {
 	logger.req('Redirect',req)
 })
 
-app.get('/issues/:name/:repo', (req, res) => {
+app.get('/issues/:name/:repo',limiter, (req, res) => {
     logger.req(`Name : ${req.params.name} Repo : ${req.params.repo}`,req)
     const feed = new RSS({
 		title: `${req.params.name}/${req.params.repo}`,
