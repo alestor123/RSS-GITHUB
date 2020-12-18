@@ -35,11 +35,14 @@ else if (options.h || options.help) { // checking undifined args
 	-i , --issue for reporting web page (any issue or bugs)
 	-f , --fsLog for setting path for log file by default this option is not true 
 `);
+process.exit(0)
+
 }
 else if (options.i || options.issue) { // checking undifined args
   console.log(`
   Issues at ${pck.bugs.url} 
 `);
+process.exit(0)
 }
 
 else{
