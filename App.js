@@ -7,11 +7,13 @@ chalk = require('chalk'),
 axios = require('axios'),
 RSS = require('rss'),
 path = require('path'),
+rateLimit = require("express-rate-limit"),
 marked = require('marked')
 api = 'https://api.github.com/',
 pck = require('./package.json'),
 argv = process.argv[2],
 token = process.env.TOKEN,
+reqLimit = process.env.LIMIT || 50,
 port = process.env.PORT || argv || 3000,
 headers = {
 	'User-Agent': 'gh-feed',
@@ -24,6 +26,7 @@ logger(`Got Token ${token}`)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 
 app.get('/github', (req,res) => {
 	res.redirect(pck.homepage)
