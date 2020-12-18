@@ -6,6 +6,7 @@ app = express(),
 chalk = require('chalk'),
 axios = require('axios'),
 RSS = require('rss'),
+path = require('path'),
 marked = require('marked')
 api = 'https://api.github.com/',
 pck = require('./package.json'),
@@ -20,6 +21,9 @@ if (token) {
 	headers.Authorization = `token ${token}`
 logger(`Got Token ${token}`)
 }
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/github', (req,res) => {
 	res.redirect(pck.homepage)
