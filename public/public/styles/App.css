@@ -1,0 +1,19 @@
+body{
+    color: white;
+    font-family: monospace;
+  background-color: #282c34;
+  justify-content: center;
+  text-align: center;
+}
+#head{
+    padding :3%;
+}
+input {
+    width: 45%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
