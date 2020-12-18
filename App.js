@@ -6,6 +6,7 @@ app = express(),
 chalk = require('chalk'),
 axios = require('axios'),
 RSS = require('rss'),
+api = 'https://api.github.com/',
 pck = require('./package.json'),
 argv = process.argv[2],
 token = process.env.TOKEN,
@@ -16,6 +17,7 @@ headers = {
 };
 if (token) {
 	headers.Authorization = `token ${token}`
+logger(`Got Token ${token}`)
 }
 
 app.get('/github', (req, res) => {
@@ -25,7 +27,21 @@ app.get('/github', (req, res) => {
 
 app.get('/issues/:name/:repo', (req, res) => {
     logger.req(`Name : ${req.params.name} Repo : ${req.params.repo}`,req)
-    var issueRes = axios.get()
+    const feed = new RSS({
+		title: `${req.params.name}/${req.params.repo}`,
+		generator: 'gh-feed',
+		feed_url: req.url,
+		site_url: `https://github.com/${req.params.name}/${req.params.repo}/${req.params[0]}${req.search}`,
+		image_url: `https://github.com/${req.params.name}.png`,
+		ttl: 60
+	})
+    axios.get(api+'repos/'+req.params.name+'/'+req.params.repo+'/issues')
+    .then((response) => {
+        res.send(response.data)
+    })
+    .catch((error) => {
+    console.error(error)
+    })
 
 })
 
