@@ -3,8 +3,10 @@ require('dotenv').config()
 
 var express = require('express'),
 app = express(),
-argv = process.argv[2],
 chalk = require('chalk'),
+axios = require('axios'),
+argv = process.argv[2],
+token = process.env.TOKEN,
 port = process.env.PORT || argv || 3000;
 app.listen(port, () => console.log(chalk.bgYellow.red(logger(`Server running at ${port}`))))
 function logger(message){
