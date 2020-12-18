@@ -13,10 +13,9 @@ pck = require('./package.json'),
 rateLimit = require("express-rate-limit"),
 marked = require('marked'),
 api = 'https://api.github.com/',
-argv = process.argv[2],
-token = process.env.TOKEN,
-reqLimit = process.env.LIMIT || 50,
-port = process.env.PORT || argv || 3000,
+token = process.env.TOKEN || options.token || options.t,
+reqLimit = process.env.LIMIT ||  options.limit || options.l || 50,
+port = process.env.PORT || options.port || options.p || 3000,
 limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 15 minutes
 	max: reqLimit*2, 	
@@ -88,8 +87,8 @@ fsLog(message)
 // Main 
 // file logging 
 function fsLog(logText) {
-	if(true){
-	fs.appendFile('logs.log',`\n ${logText} \n` , (err) => {
+	if(options.fslog || options.f || false ){
+	fs.appendFile(options.fsLog || options.f ||'logs.log',`\n ${logText} \n` , (err) => {
 		if (err) throw err;
 	  });
 		}
