@@ -21,7 +21,7 @@ headers = {
 },
 limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 15 minutes
-	max: reqLimit*2, 
+	max: reqLimit*2, 	
 	message:'Your Limit Has Exceeded'
 });
 if (token) {
@@ -64,7 +64,8 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
         res.contentType('application/xml').header('Cache-Control', 'no-cache,max-age=600').send(feed.xml())
     })
     .catch((error) => {
-    console.error(error)
+	res.send('We Got An Error Please Try Later')
+	console.error(error.response.data)
     })
 
 })
