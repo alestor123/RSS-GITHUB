@@ -29,6 +29,7 @@
     "express-ipfilter": "^1.1.2",
     "express-rate-limit": "^5.2.3",
     "marked": "^1.2.7",
+    "minimist": "^1.2.5",
     "rss": "^1.2.2"
   }
 }
