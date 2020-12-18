@@ -52,7 +52,8 @@ else{
 	app.listen(port, () => logger(`Server running at ${port}`))
 }
 // setting axios header auth 
-if (token) {
+if (token) {// add express limit 
+
 	axios.defaults.headers.common['Authorization'] = token;
 	logger(`Got Token ${token}`)
 }
