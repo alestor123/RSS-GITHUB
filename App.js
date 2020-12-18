@@ -22,7 +22,8 @@ logger(`Got Token ${token}`)
 }
 
 app.get('/github', (req,res) => {
-    res.redirect(pck.homepage)
+	res.redirect(pck.homepage)
+	logger.req('Redirect',req)
 })
 
 app.get('/issues/:name/:repo', (req, res) => {
