@@ -17,6 +17,9 @@ app.get('/github', (req, res) => {
 })
 
 
+app.get('/issues/:name/:repo', (req, res) => {
+    logger.req(`Name : ${req.params.name} Repo : ${req.params.repo}`,req)
+})
 
 
 
@@ -36,9 +39,13 @@ app.get('/github', (req, res) => {
 
 
 // port listen
-app.listen(port, () => console.log(chalk.bgYellow.red(logger(`Server running at ${port}`))))
+app.listen(port, () => logger(`Server running at ${port}`))
 
 // logger 
 function logger(message){
-return `(LOG):${Date()}:${message}`
+console.log(chalk.bgYellow.red(`(LOG):${Date()}:${message}`))
+}
+
+logger.req = (message,req) => {
+    console.log(chalk.bgYellow.blue(`(REQUEST):${Date()}:Ip : ${req.ip} : ${message}`))
 }
