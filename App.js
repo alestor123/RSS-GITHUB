@@ -101,6 +101,17 @@ app.get('/issues/:name/:repo',limiter, (req, res) => {
 
 })
 
+app.get('/user/:name',(req, res) => {
+
+    axios.get('https://github.com/'+req.params.name+'.atom')
+    .then((response) => {
+        res.contentType('application/xml').header('Cache-Control', 'no-cache,max-age=600').send(response.data)
+
+	})
+	.catch((error) => {
+		res.send('We Got An Error Please Try Later' + error)
+})
+})
 
 // logger 
 function logger(message){
